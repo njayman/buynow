@@ -1,0 +1,19 @@
+{
+  "name": "buynow-api",
+  "version": "1.0.0",
+  "description": "buynow ecommerce marketplace api",
+  "main": "index.js",
+  "author": "njayman",
+  "license": "MIT",
+  "scripts": {
+    "start": "NODEENV=production node index.js",
+    "dev": "nodemon --trace-deprecation -r dotenv/config index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.11.14",
+    "nodemon": "^2.0.7"
+  }
+}
