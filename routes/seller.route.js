@@ -2,14 +2,14 @@ const express = require("express");
 const r = express.Router();
 
 const {
-  loginAdmin,
-  registerAdmin,
+  loginSeller,
+  registerSeller,
   addProduct,
   getProducts,
   getProduct,
-} = require("../controllers/admin.controller");
-r.post("/register", registerAdmin);
-r.post("/login", loginAdmin);
+} = require("../controllers/seller.controller");
+r.post("/register", registerSeller);
+r.post("/login", loginSeller);
 r.post("/product/add", addProduct);
 r.get("/products/get/:sellrid", getProducts);
 r.get("/product/get/:id/:sellerid", getProduct);

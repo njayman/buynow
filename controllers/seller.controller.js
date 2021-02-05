@@ -1,13 +1,32 @@
-const Seller = require("../models/seller");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const Product = require("../models/product");
+const Seller = require("../models/seller");
 
 exports.registerSeller = async (req, res) => {
   try {
-    const seller = new Seller(req.body);
-    await seller.save();
-    res.json({
-      success: true,
-      message: `Successfully registered as ${seller.fullname}`,
+    console.log(req.body);
+    let saltRounds = 10;
+    bcrypt.genSalt(saltRounds, (err, salt) => {
+      if (err) {
+        res.json({ success: false, message: err.message });
+      } else {
+        bcrypt.hash(req.body.password, salt, async (err, hash) => {
+          if (err) {
+            console.log(err);
+            res.json({ success: false, message: err.message });
+          } else {
+            let tempseller = req.body;
+            tempseller.password = hash;
+            const seller = new Seller(tempseller);
+            await seller.save();
+            res.json({
+              success: true,
+              message: `Successfully registered as ${seller.fullname}`,
+            });
+          }
+        });
+      }
     });
   } catch (error) {
     res.json({ success: false, message: error.message });
@@ -17,11 +36,28 @@ exports.registerSeller = async (req, res) => {
 exports.loginSeller = async (req, res) => {
   try {
     const seller = await Seller.findOne({ email: req.body.email });
-    if (seller && seller.password === req.body.password) {
-      res.json({
-        success: true,
-        message: `Successfully logged in as ${seller.fullname}`,
-      });
+    if (seller) {
+      bcrypt.compare(
+        req.body.password,
+        seller.password,
+        function (err, result) {
+          if (err) {
+            console.log(err);
+            res.json({ success: false, message: error.message });
+          } else if (result) {
+            var token = jwt.sign(
+              {
+                id: seller._id,
+                fullname: seller.fullname,
+                email: seller.email,
+                type: "seller",
+              },
+              process.env.SECRET
+            );
+            res.json({ success: true, token: token });
+          }
+        }
+      );
     } else if (seller && seller.password !== req.body.password) {
       res.json({
         success: false,
@@ -59,7 +95,7 @@ exports.forgetPassword = async (req, res) => {
 
 exports.addProduct = async (req, res) => {
   try {
-    const product = new Product(req.body.product);
+    const product = new Product(req.body);
     await product.save();
     res.json({
       success: true,

@@ -5,10 +5,10 @@ const ProductSchema = new Schema({
     type: String,
     required: true,
   },
-  sellerid: {
-    type: String,
-    required: true,
-  },
+  // sellerid: {
+  //   type: String,
+  //   required: true,
+  // },
   description: {
     type: String,
     required: true,
@@ -56,10 +56,10 @@ const ProductSchema = new Schema({
     type: String,
     required: true,
   },
-  singleProduct: {
-    type: Boolean,
-    required: true,
-  },
+  // singleProduct: {
+  //   type: Boolean,
+  //   required: true,
+  // },
   variants: [],
 });
 
