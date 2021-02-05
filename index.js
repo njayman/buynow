@@ -25,7 +25,9 @@ db.once("open", function () {
 });
 
 const userRoute = require("./routes/user.route");
+const adminRoute = require("./routes/admin.route");
 app.use("/user", userRoute);
+app.use("/admin", adminRoute);
 
 app.listen(port, () =>
   console.log(`server is up! Port ${port} | Environment ${NODEENV}`)

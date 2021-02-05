@@ -5,6 +5,10 @@ const ProductSchema = new Schema({
     type: String,
     required: true,
   },
+  sellerid: {
+    type: String,
+    required: true,
+  },
   description: {
     type: String,
     required: true,
