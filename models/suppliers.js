@@ -1,6 +1,6 @@
 const { model, Schema } = require("mongoose");
 
-const UserSchema = new Schema(
+const SupplierSchema = new Schema(
   {
     fullname: {
       type: String,
@@ -15,17 +15,6 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
-    membership: {
-      type: String,
-      required: true,
-      default: "free",
-    },
-    favourite: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "product",
-      },
-    ],
     cart: [
       {
         type: Schema.Types.ObjectId,
@@ -44,4 +33,4 @@ const UserSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = model("user", UserSchema);
+module.exports = model("supplier", SupplierSchema);

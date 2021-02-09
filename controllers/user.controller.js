@@ -82,3 +82,32 @@ exports.forgetPassword = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
+
+exports.manageCart = async (req, res) => {
+  try {
+    await User.updateOne(
+      { _id: req.params.id },
+      { $set: { cart: req.body.cart } }
+    );
+    res.json({
+      success: true,
+    });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+
+exports.purchase = async (req, res) => {
+  try {
+    const User = await User.findOne({ _id: req.params.id });
+    await User.updateOne(
+      { _id: req.params.id },
+      { $set: { cart: req.body.cart } }
+    );
+    res.json({
+      success: true,
+    });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};

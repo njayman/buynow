@@ -1,5 +1,6 @@
 const Admin = require("../models/admin");
 const Product = require("../models/product");
+const User = require("../models/user");
 
 exports.registerAdmin = async (req, res) => {
   try {
@@ -92,4 +93,46 @@ exports.getProduct = async (req, res) => {
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
+};
+
+exports.addUser = async (req, res) => {
+  try {
+    const user = new User(req.body);
+    await user.save();
+    res.json({
+      success: true,
+      message: "User added successfully",
+    });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  try {
+    await User.deleteOne({ _id: req.params.id });
+    res.json({
+      success: true,
+      message: "User added successfully",
+    });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+
+exports.editUser = async (req, res) => {
+  try {
+    await User.updateOne({ _id: req.params.id });
+    res.json({
+      success: true,
+      message: "User added successfully",
+    });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+
+exports.addPurchase = async (req, res) => {
+  try {
+  } catch (error) {}
 };
