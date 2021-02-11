@@ -35,8 +35,8 @@ exports.registerUser = async (req, res) => {
 
 exports.loginUser = async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
-    if (user) {
+    if (await User.exists({ email: req.body.email })) {
+      const user = await User.findOne({ email: req.body.email });
       bcrypt.compare(req.body.password, user.password, function (err, result) {
         if (err) {
           res.json({ success: false, message: error.message });
@@ -50,7 +50,13 @@ exports.loginUser = async (req, res) => {
             },
             process.env.SECRET
           );
+          console.log(result);
           res.json({ success: true, token: token });
+        } else {
+          res.json({
+            success: false,
+            message: `Password doesn't match for ${req.body.email}`,
+          });
         }
       });
     } else {
@@ -100,6 +106,7 @@ exports.manageCart = async (req, res) => {
 exports.purchase = async (req, res) => {
   try {
     const User = await User.findOne({ _id: req.params.id });
+
     await User.updateOne(
       { _id: req.params.id },
       { $set: { cart: req.body.cart } }

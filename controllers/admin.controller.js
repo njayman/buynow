@@ -74,6 +74,7 @@ exports.addProduct = async (req, res) => {
 exports.getProducts = async (req, res) => {
   try {
     const products = await Product.find();
+    console.log(products);
     res.json({
       success: true,
       products: products,
